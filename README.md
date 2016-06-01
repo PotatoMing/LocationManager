@@ -1,6 +1,6 @@
 # Project – Location Manager
 
-### Author: Mingchuan Dong Email: md3285@drexel.edu
+#### Author: Mingchuan Dong Email: md3285@drexel.edu
 
 ##Application
 The proposed system is an easy-to-use web application that gives users a clear and general idea about the geographical location of their friends, and can provide suggestions on their potential reunion opportunities based on their upcoming trips. Users can have a quick digest on their friends' location after logging in. User is allowed to share the information of their upcoming trip with their friends and the system will provide suggestions about which of their friends can be met during this trip.
