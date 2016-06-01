@@ -1,0 +1,27 @@
+.comment{
+	margin: 20px;
+	padding: 10px;
+	height: 100px;
+	font-size: 18px;
+}
+.border-top-blue{
+	border-top: 2px solid blue;
+}
+.border-top-yellow{
+	border-top: 2px solid yellow;
+}
+.border-top-green{
+	border-top: 2px solid green;
+}
+#new-comment{
+	margin: 20px;
+}
+.comment .comment-header{
+	font-size:15px;
+}
+.comment-time{
+	font-style: italic;
+}
+.remove{
+	float:right;
+}

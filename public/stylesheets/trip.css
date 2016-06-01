@@ -1,0 +1,14 @@
+.trip-form-date{
+	font-style: normal;
+}
+#trip-results{
+	display: none;
+	height: 300px;
+	border: 1px solid green;
+	margin-bottom: 10px;
+	overflow-y: scroll;
+}
+#trip-BingMap{
+	position:relative;
+	height:400px;
+}

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<% include ../partials/head %>
+	</head>
+	<body>
+		<div class="container">
+			<p>Hello Master!</p>
+			<ul>
+				<% for (user in userlist){ %>
+					<li><%= user.hash %></li>
+				<% } %>
+		</div>
+	</body>
+
+</html>

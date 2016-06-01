@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<% include ../partials/head %>
+		<script>
+			var addr = "http://localhost:3000/";
+			function xhr(obj,instruction){
+				var username = obj.parentNode.parentNode.childNodes[1].innerHTML;
+				username = username.replace(/(\n\t|\t|\n)/gm,"");
+				console.log(username);
+				if(instruction==='delete'){
+					$.ajax({
+						type:'DELETE',
+						url: '/users/deleteuser/'+username
+					}).done(function(response){
+						if(response.msg===''){
+							location.reload();
+						}else{
+							alert('Error: '+response.msg);
+						}
+					});
+				}else if(instruction==='approve'){
+					$.ajax({
+						type:'POST',
+						url:'/users/approveuser/'+username
+					}).done(function(response){
+						if(response.msg===''){
+							location.reload();
+						}else{
+							alert('Error: '+response.msg);
+						}
+					});
+				}else{
+					alert('invalid instruction!');
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<% include ../partials/header %>
+		<div class="container">
+			<div class="center">
+				<h1>Manage users account</h1>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Username</th>
+							<th>Approved?</th>
+							<th colspan="2">Manipulation</th>
+						</tr>
+						<% for(var i=0;i<userlist.length;i++){ %>
+							<% if(userlist[i].username!==""){%>
+							<tr>
+								<td>
+									<%= userlist[i].username %>
+								</td>
+								<td>
+									<%= userlist[i].approved %>
+								</td>
+								<td>
+									<button onclick="xhr(this,'approve')">Approve</button>
+								</td>
+								<td>
+									<button onclick="xhr(this,'delete')">Delete</button>
+								</td>
+							</tr>
+							<% } %>
+						<% } %>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>

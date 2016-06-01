@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<% include ../partials/head %>
+		<link rel="stylesheet" href="/stylesheets/index.css"/>
+		<script>
+			function formValidation(){
+				var input = document.getElementsByTagName("input");
+				var username = input[0].value;
+				if(username==='&'){
+					alert("input string not allowed");
+					return false;
+				}else{
+					return true;
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="center" id="logo-container">
+				<img src="/images/logo.png" id="logo">
+			</div>
+			<div id="login-register" class="center">
+				<h1>Login</h1>
+				<p>Enter your username and password here...</p>
+				<p class="errormsg">
+					<% if(message){ %>
+						<%= message %>
+					<% } %>
+				</p>
+				<form role="form" action="/login" method="post" onsubmit="return formValidation()">
+					<div class="form-group">
+						<input class="form-control" type="text" name="username" placeholder="Enter Username" required>
+					</div>
+					<div class="form-group">
+						<input class="form-control" type="password" name="password" placeholder="Password" required>
+					</div>
+					<button id="submit" class="btn btn-success" type="submit">Submit</button>
+					<a href="/register">
+						<button class="btn btn-success" type="button">Register</button>
+					</a>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

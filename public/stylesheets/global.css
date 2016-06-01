@@ -1,0 +1,118 @@
+@import url(https://fonts.googleapis.com/css?family=Slabo+27px);
+@import url(https://fonts.googleapis.com/css?family=Dosis:500);
+@import url(https://fonts.googleapis.com/css?family=Oswald);
+@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
+
+h1,h2,h3,h4,p,span,button,a,label,table,select,li{
+	font-family: 'Dosis', sans-serif;
+}
+
+body {
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+	color: #00B7FF;
+}
+
+a:hover{
+	cursor: pointer;	
+}
+
+form {
+	max-width: 500px;
+}
+.div-hidden{
+	display: none;
+}
+.content{
+	margin:20px;
+}
+.content-heading{
+	display:inline-block;
+}
+
+.btn{
+	margin: 10px;
+	background-color:#408000;
+	border:#408000;
+	color:white;
+}
+
+.deletable{
+  float:right;
+}
+
+.userInfo{
+	position:relative;
+	top: 50px;
+	max-width: 300px;
+	margin: 0 auto;
+}
+
+.errormsg{
+	color:red;
+}
+.content-center{
+	text-align: center;
+}
+.center{
+	float: none;
+	max-width: 500px;
+	margin: 0 auto;
+}
+.nav-tabs a{
+	font-size:20px;
+	font-color:black;
+	color:black;
+}
+
+#welcome{
+	text-align:center;
+}
+#geocodeResults{
+	display: none;
+}
+#nav-top,#pill-top{
+	margin:0px;
+}
+#pill-top>li>a {
+	font-size: 20px;
+	color: white;
+	background-color: #408000;
+	border-radius:0px;
+	border-left: 1px solid black;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	font-family: 'Ubuntu', sans-serif;
+}
+#pill-top>li>a:hover{
+	background-color:#184e18;
+}
+#pill-top>li.active>a{
+	background-color:#184e18;
+}
+.loading{
+	background: url('/images/ajax-loader.gif')
+				50% 50% 
+                no-repeat;
+}
+.float-info{
+	width:40%;
+	margin: 0 auto;
+	position:fixed;
+	left:30%;
+	right:30%;
+	top:25%;
+	background-color:white;
+	z-index:1002;
+	border:1px solid green ;
+	border-radius:5px;
+	text-align: center;
+	padding:20px;
+	display:none;
+}
+p:hover{
+	font-size: 30px;
+}

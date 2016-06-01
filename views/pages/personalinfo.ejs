@@ -1,0 +1,183 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<% include ../partials/head %>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/global.css">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/personalinfo.css">
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="../javascripts/global.js"></script>
+		<script src="../javascripts/bingmap.js"></script>
+		<title>Personal Info</title>
+	</head>
+	<body>
+		<% include ../partials/header %>
+		<script>
+			var userlist = <%- JSON.stringify(info)%>;
+			$(function(){
+				$('.nav-tabs a').click(function(){
+					$(this).tab('show');
+				});
+				var x = <%= info.geoX %>;
+				var y = <%= info.geoY %>;
+				getMap(x,y,"Bing-Map");
+			});
+			function displayInfo(msg){
+				$('#popup-geolocation').removeClass('loading');
+				$('#popup-geolocation>.info').text(msg);
+			}
+			function updatePassword(){
+				var originalPwd = $('#original-pwd').val();
+				var newPwd = $('#new-pwd').val();
+				var confirmPwd = $('#confirm-pwd').val();
+				$('#popup-geolocation').show();
+				$('#popup-geolocation').addClass('loading');
+				if(confirmPwd!==newPwd){
+					displayInfo('Your passwords do not match! Please try again');
+					$('#password input').val('');
+					return;
+				}
+				$.ajax({
+					method: "POST",
+					url: "updatepwd",
+					data:{
+						'originalPwd':originalPwd,
+						'newPwd':newPwd
+					}
+				}).done(function(response){
+					var msg;
+					if(response.msg===''){
+						msg = 'Your password has been changed successfully!';
+					}else{
+						msg = response.msg;
+					}
+					displayInfo(msg);
+				});
+			}
+			function updateInfo(){
+				var geoX = $('#geoX').val();
+				var geoY = $('#geoY').val();
+				var city = $('#city').val();
+				var country = $('#country').val();
+				var geoLocation = $('#form-geolocation').val();
+				var job = ($('#job').val()==='')?'unknown':$('#job').val();				//if this field is empty, then set to unknown
+				var hobby = ($('#hobby').val()==='')?'unknown':$('#hobby').val();
+				$('#popup-geolocation').show();
+				$('#popup-geolocation').addClass('loading');
+				$.ajax({
+					method: "POST",
+					url: "updateinfo",
+					data:{
+						'geoLocation': geoLocation,
+						'geoX':geoX,
+						'geoY':geoY,
+						'city':city,
+						'country':country,
+						'job':job,
+						'hobby':hobby
+					}
+				}).done(function(response){
+					var msg;
+					if(response.msg===''){
+						msg = 'Your information has been successfully updated';
+					}else{
+						msg = 'Server error!';
+					}
+					displayInfo(msg);
+				});
+			}
+		</script>
+		<div class="container">
+		<ul class="nav nav-tabs nav-justified">
+			<li class="active"><a href="#profile">My Profile</a></li>
+			<li><a href="#password">Change Password</a></li>
+		</ul>
+		<div class="tab-content">
+			<div id="profile" class="tab-pane fade in active">
+				<h2>My Profile</h2>
+				<div class="row">
+					<div class="col-md-6">
+					<form class="form">
+					<div class="form-group">
+						<label for="userrname">Username:</label>
+						<input type="text" class="form-control" id="username" value="<%- info.username%>" readonly>
+					</div>
+					<div class="form-group row">
+						<div class="col-md-6">
+							<label for="latitude">Latitude:</label>
+							<input type="text" class="form-control" id="geoX" value="<%- info.geoX%>" readonly>
+							<label for="country">Country:</label>
+							<input type="text" class="form-control" id="country" value="<%- info.country%>" readonly>
+						</div>
+						<div class="col-md-6">
+							<label for="longitude">Longitude:</label>
+							<input type="text" class="form-control" id="geoY" value="<%- info.geoY%>" readonly>
+							<label for="city">City:</label>
+							<input type="text" class="form-control" id="city" value="<%- info.city%>" readonly>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-3">My Location:</label>
+						<div class="col-md-6">
+							<input type="text" class="form-control" value="<%- info.geoLocation%>" id="form-geolocation">
+						</div>
+						<div class="col-md-3">
+							<button type="button" class="btn btn-success btn-block" onclick="setGeoLocation('form-geolocation')">Confirm</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Current job:</label>
+						<input type="text" class="form-control" value="<%- info.job%>" id="job">
+					</div>
+					<div class="form-group">
+						<label>Hobbies:</label>
+						<input type="text" class="form-control" value="<%- info.hobby%>" id="hobby">
+					</div>
+					<div class="submit">
+						<button type="button" class="btn btn-success btn-lg" onclick="updateInfo()">Submit</button>
+						<button type="button" class="btn btn-success btn-lg" onclick="formReset('form-geolocation')">Reset</button>
+						</div>
+					</form>
+					</div>
+					<div class="col-md-6">
+						<div class="BingMap" id="Bing-Map">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="password" class="tab-pane fade">
+				<h2>Change Password</h2>
+				<div class="row">
+				<form class="form col-md-6">
+						<div class="form-group">
+							<label>Original Password:</label>
+							<input type="password" class="form-control" id="original-pwd">
+						</div>
+						<div class="form-group">
+							<label>New Password:</label>
+							<input type="password" class="form-control" id="new-pwd">
+							<label>Confirm your password:</label>
+							<input type="password" class="form-control" id="confirm-pwd">
+						</div>
+						<div class="content-center">
+							<button type="button" class="btn btn-success btn-lg" onclick="updatePassword()">Confirm</button>
+						</div>
+				</form>
+				<div class="col-md-6 tips">
+					<h4>Tips:</h4>
+					<p>Please change your password frequently</p>
+				</div>
+			</div>
+		</div>
+		<div class="float-info" id="popup-geolocation">
+			<p class="info"></p>
+			<button class="window-close btn btn-success btn-lg">Close</button>
+		</div>
+		<div id="confirm-geolocation" class="float-info">
+			<p class="info"></p>
+			<button class="btn btn-success btn-lg" onclick="confirmGeoLocation('confirm-geolocation')">Yes</button>
+			<button class="btn btn-success btn-lg" onclick="displayResult()">No</button>
+		</div>
+		</div>
+		<% include ../partials/popups %>
+	</body>
+</html>

@@ -1,0 +1,13 @@
+.btn{
+	margin: 0px;
+}
+.submit{
+	text-align: center;
+}
+#Bing-Map{
+	position:relative;
+	height: 500px;	
+}
+.tips{
+	border:2px;
+}

@@ -1,0 +1,44 @@
+body{
+  background-color: rgb(51, 99, 3);
+}
+#login-register{
+	margin-top:100px;
+	background-color: rgba(192,192,192,0.8);
+	padding: 20px;
+	border-radius: 5px;
+}
+#Register-Bing-Map{
+	position:relative;
+	top: 100px;
+	height: 600px;
+}
+.center-container{
+	max-width:900px;
+	margin: 0 auto;
+}
+.form-group-hidden{
+	display:none;
+}
+.center{
+	margin: 0 auto;
+}
+
+#Information{
+	background-color: rgba(192,192,192,0.8);
+	max-width: 600px;
+	padding: 30px;
+	border-radius: 5px;
+	position: relative;
+	top: 150px;
+}
+#logo-container{
+	max-width: 400px;
+	position: relative;
+	top: 80px;
+}
+#logo{
+	max-width: 400px;
+}
+p:hover,button:hover{
+	font-size:30px;
+}

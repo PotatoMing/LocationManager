@@ -1,0 +1,65 @@
+footer{
+	font-family: cursive;
+	text-align: center;
+	padding: 10px;
+	background-color: #408000;
+}
+.BingMap{
+	position:relative;
+	margin: 0 auto;
+	margin-top:30px;
+	height: 540px;
+	margin-left:20px;
+	clear:both;
+}
+.Info-box{
+	height: 300px;
+	margin-top:30px;
+	margin-left: 10px;
+	border-top: 2px solid green;
+	position: relative;
+}
+.statistics{
+	height:200px;
+	margin-left:20px;
+	margin-top:20px;
+	text-align:center;
+}
+.statistic-box{
+	height:200px;
+	width: 200px;
+	margin: 0 auto;
+}
+.statistic-block{
+	text-align: center;
+
+}
+#user-status{
+	margin-top:20px;
+	height: 150px;
+	position:relative;
+	left:20px;
+}
+#userlist{
+	border-top: 2px solid green;
+	height: 300px;
+	position:relative;
+	margin-top:180px;
+	overflow: scroll;
+}
+.travel-frequency{
+	position:relative;
+}
+.vertical-center{
+	position:relative;
+	top: 100px;
+}
+#travel-frequency{
+	height:300px;
+}
+#intro-footprint,#intro-trip{
+	height:500px;
+}
+.topic-intro{
+	font-family: 'Oswald',sans-serif;
+}

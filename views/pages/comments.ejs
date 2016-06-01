@@ -1,0 +1,127 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<% include ../partials/head %>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/comments.css">
+		<script src="javascripts/comments.js"></script>
+		<script src="javascripts/global.js"></script>
+		<title>Bulletin Board</title>
+	</head>
+	<body>
+			<% include ../partials/header %>
+			<script>
+				var comments = <%- JSON.stringify(comments)%>;
+				var currentUser = '<%- user%>';
+				$('#pill-top').children('li').eq(3).addClass('active');
+				$(function(){
+					initComments();
+					$('.window-close').click(function(){
+						location.reload();
+					});
+					$(document).on('click','.remove',function(){
+						deleteComment($(this).parent().parent());
+					});
+				});
+				function displayInfo(msg){
+					$('.float-info').show();
+					$('.float-info>#info').text(msg);					
+				}
+				function submitComment(){
+					var comment = $('#new-comment>textarea').val().trim();
+					if(comment.length===0){		
+						displayInfo("Please do not submit empty comment");
+						return;
+					}
+					var anounymous = $('#new-comment .checkbox input').is(':checked');			//if the anounymous checkbox has been checked
+					var time = new Date();
+					$.ajax({
+						method:'POST',
+						url:'users/addcomment',
+						data:{
+							'comment':comment,
+							'time':time,
+							'anounymous':anounymous
+						}
+					}).done(function(response){
+						if(response.msg===''){
+							location.reload();
+						}else{
+							alert(response.msg);
+						}
+					});
+				}
+				function deleteComment(obj){
+					//param is a jQuery object
+					var username = currentUser;
+					var time = obj.find('.comment-time').text();
+					$.ajax({
+						method:'DELETE',
+						url:'users/deletecomment',
+						data:{
+							'username':username,
+							'time':time
+						}
+					}).done(function(response){
+						if(response.msg===''){
+							location.reload();
+						}else{
+							alert(response.msg);
+						}
+					});
+				}
+				function initComments(){
+					for(var x of comments){
+						x.time = new Date(x.time);
+					}
+					comments.sort(function(a,b){
+						return b.time - a.time;		//sort the comments array by time
+					})
+					for(var i=0;i<comments.length;i++){
+						var commentDiv = createComment(comments[i].username,comments[i].comment,comments[i].time,comments[i].anounymous);
+						$('#user-comments').append(commentDiv);
+					}
+				}
+				function createComment(user,content,time,anounymous){
+					//return a DOM object comment
+					var comment = $('<div class="comment"></div>');
+					var color = ['border-top-green'];
+					if(user===currentUser){
+						comment.append('<div><a class="remove glyphicon glyphicon-remove"></a></div');
+					}
+					if(anounymous==='true'){
+						user = 'Anounymous';
+					}
+					var commentHeader = $('<p class="comment-header"></p>');
+					commentHeader.text('Created by: '+user+' ');
+					commentHeader.append('<span class="comment-time">'+time+'</span>');
+					var commentContent = $('<p class="comment-content"></p>');
+					commentContent.text(content);
+					comment.append(commentHeader);
+					comment.append(commentContent);
+					comment.addClass(color[Math.floor(Math.random()*color.length)]);			//randomly assign a color
+					return comment;
+				}
+			</script>
+			<div class="content">
+				<h1 class="content-heading">Comments</h1><hr>
+				<div class="container">
+					<div id="new-comment">
+						<h4>Leave your comments:</h4>
+						<textarea class="form-control" plceholder="Leave your comment here..." rows="5"></textarea>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox">Comment Anonymously
+							</label>
+						</div>
+						<button class="btn btn-success btn-lg" onclick="submitComment()">Submit</button>
+						<button class="btn btn-success btn-lg" onclick="formReset('new-comment')">Clear</button>
+					</div>
+					<div id="user-comments">
+					</div>
+				</div>
+				<div class="float-info">
+					<p id="info"></p>
+					<button class="window-close btn btn-success btn-lg">Close</button>
+			</div>
+	</body>
+</html>

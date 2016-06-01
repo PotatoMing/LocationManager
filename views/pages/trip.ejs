@@ -1,0 +1,111 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<% include ../partials/head %>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/trip.css">
+		<script src="javascripts/bingmap.js"></script>
+		<script src="javascripts/global.js"></script>
+		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<title>Trip manager</title>
+	</head>
+	<body>
+		<% include ../partials/header %>
+		<script>
+			$('#pill-top').children('li').eq(2).addClass('active');
+			var currentUser = "<%- user%>";
+			var currentCity = "";
+			var info = <%-JSON.stringify(info)%>;
+			var x,y,startingPoint,endingPoint;
+			var directionsManager;
+			var steps; 													//steps of route direction
+			var stepLength;												//number of steps
+			var routeCity = new Map();
+			var routeCountry = new Map();
+			var stepCount;												//step count for callbacks
+			var upcomingUsers = [];
+			for(var user of info){
+				if(user.username===currentUser){
+					x = user.geoX;
+					y = user.geoY;
+					currentCity = user.city;
+					startingPoint = user.geoLocation;
+					break;
+				}
+			}
+		</script>
+		<script src="javascripts/trip.js"></script>
+		<div class="content">
+			<h1 class="content-heading">Manage Your Trip</h1><hr>
+			<div class="container">
+				<div class="row" id="trip-form">
+					<div class="col-md-8">
+						<label>Please enter the destination for your upcoming trip:</label>
+						<input class="form-control" id="trip-destination">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="trip-form-date">Month:</label>
+								<select class="form-control" id="trip-month">
+									<% var tomorrow = new Date(); %>
+									<% tomorrow.setDate(tomorrow.getDate()+1); %>
+									<% for(var i=tomorrow.getMonth()+1;i<=11;i++){%>
+										<option value="<%= i %>"><%= i %></option>
+									<% } %>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<label class="trip-form-date">Day:</label>
+								<select class="form-control" id="trip-date">
+									<% for(var i=tomorrow.getDate();i<=31;i++){%>
+										<option value="<%= i %>"><%= i %></option>
+									<% } %>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<label class="trip-form-date">Year:</label>
+								<select class="form-control" id="trip-year">
+									<% for(var i=tomorrow.getFullYear();i<=tomorrow.getFullYear()+10;i++){%>
+										<option value="<%= i %>"><%= i %></option>
+									<% } %>
+								</select>
+							</div>
+						</div>
+						<div class="content-center">
+							<button type="button" class="btn btn-success" onclick="setGeoLocation('trip-destination')">Submit</button>
+							<button type="button" class="btn btn-success" onclick="formReset('trip-form')">Reset</button>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="tips">
+							<h4>Tips:</h4>
+							<ul>
+								<li>Manage your trip in advance and meet your old friends during the trip!</li>
+								<li>Specify the date of your trip and let your friends know when you are coming!</li>
+								<li>Do not forget to press "confirm" once found the route.</li>
+								<li>Outdated trip plan will be deleted automatically.</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<h4>Navigation</h4>
+				<div id="trip-results">
+				</div>
+				<div id="trip-BingMap"></div>
+				<div id="trip-submitted"></div>
+			</div>
+		</div>
+		<div id="confirm-geolocation" class="float-info">
+			<p class="info"></p>
+			<button class="btn btn-success btn-lg" onclick="confirmTripDest('confirm-geolocation')">Yes</button>
+			<button class="btn btn-success btn-lg" onclick="displayResult()">No</button>
+		</div>
+		<div class="float-info" id="sysinfo">
+			<p class="info"></p>
+			<button class="window-close btn btn-success btn-lg">Close</button>
+		</div>
+		<div id="trip-users" class="draggable float-info">
+			<p></p>
+			<button class="btn btn-success" onclick="submitTrip()">Confirm</button>
+			<button class="window-close btn btn-success">Cancel</button>
+		</div> 
+	</body>
+</html>
